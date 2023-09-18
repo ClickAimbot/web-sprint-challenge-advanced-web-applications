@@ -43,7 +43,8 @@ export default function App() {
     setMessage('')
     setSpinnerOn(true)
     // and launch a request to the proper endpoint.
-    axiosWithAuth().post('./login', { username, password })
+    axiosWithAuth()
+      .post(loginUrl, { username, password })
       .then(res => {
         localStorage.setItem('token', res.data.token)
         setMessage(res.data.message)
@@ -65,9 +66,10 @@ export default function App() {
     setMessage('')
     setSpinnerOn(true)
     // and launch an authenticated request to the proper endpoint.
-    axiosWithAuth().get('./articles', articles)
+    axiosWithAuth()
+      .get(articlesUrl)
       .then(res => {
-        setArticles(res.data)
+        setArticles(res.data.articles)
         setMessage(res.data.message)
         setSpinnerOn(false)
       })
