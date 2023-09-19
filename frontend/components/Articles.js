@@ -5,10 +5,6 @@ import PT from 'prop-types';
 export default function Articles(props) {
   const { articles, getArticles, deleteArticle, setCurrentArticleId, currentArticleId } = props;
 
-  const editArticle = (articleId) => {
-    setCurrentArticleId(articleId);
-  };
-
   if (!localStorage.getItem('token')) {
     return <Navigate to='/' />;
   }
@@ -32,10 +28,10 @@ export default function Articles(props) {
               <p>Topic: {art.topic}</p>
             </div>
             <div>
-              <button disabled={true} onClick={() => editArticle(art.article_id)}>
+              <button disabled={!currentArticleId} onClick={() => updateArticle(art.article_id)}>
                 Edit
               </button>
-              <button disabled={true} onClick={() => deleteArticle(art.article_id)}>
+              <button disabled={!currentArticleId} onClick={() => deleteArticle(art.article_id)}>
                 Delete
               </button>
             </div>

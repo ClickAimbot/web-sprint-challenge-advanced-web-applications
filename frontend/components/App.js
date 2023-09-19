@@ -69,6 +69,7 @@ export default function App() {
     axiosWithAuth()
       .get(articlesUrl)
       .then(res => {
+        console.log(res)
         setArticles(res.data.articles)
         setMessage(res.data.message)
         setSpinnerOn(false)
@@ -86,12 +87,13 @@ export default function App() {
     // if it's a 401 the token might have gone bad, and we should redirect to login.
     // Don't forget to turn off the spinner!
   }
-
+  
   const postArticle = article => {
     // ✨ implement
     setMessage('')
     setSpinnerOn(true)
-    axiosWithAuth().post('./articles', article)
+    axiosWithAuth()
+      .post('./articles', article)
       .then(res => {
         console.log(res.data)
         setArticles(res.data)
@@ -165,8 +167,18 @@ export default function App() {
           <Route path="/" element={<LoginForm login={login} />} />
           <Route path="articles" element={
             <>
-              <ArticleForm updateArticle={updateArticle} deleteArticle={deleteArticle} postArticle={postArticle} setCurrentArticleId={setCurrentArticleId}/>
-              <Articles articles={articles} getArticles={getArticles} deleteArticle={deleteArticle} setCurrentArticleId={setCurrentArticleId}/> 
+              <ArticleForm 
+                updateArticle={updateArticle} 
+                deleteArticle={deleteArticle} 
+                postArticle={postArticle} 
+                setCurrentArticleId={setCurrentArticleId}
+                currentArticleId={currentArticleId}/>
+              <Articles 
+                articles={articles} 
+                getArticles={getArticles} 
+                deleteArticle={deleteArticle} 
+                setCurrentArticleId={setCurrentArticleId}
+                currentArticleId={currentArticleId}/> 
             </>
           } />
         </Routes>

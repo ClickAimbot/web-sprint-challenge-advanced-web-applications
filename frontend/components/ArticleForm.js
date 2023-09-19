@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import PT from 'prop-types'
 
-const initialFormValues = { title: '', text: '', topic: '' }
-
+const initialFormValues = 
+  { 
+    title: '', 
+    text: '', 
+    topic: '' 
+  }
 export default function ArticleForm(props) {
-  const [values, setValues] = useState(initialFormValues)
+  const [values, setValues] = useState(initialFormValues);
+  const [currentArticle, setCurrentArticle] = useState(null)
+
   // ✨ where are my props? Destructure them here
-  const { postArticle, updateArticle, currentArticle } = props
+  const { postArticle, updateArticle, setCurrentArticleId} = props
 
   useEffect(() => {
     if (currentArticle) {
@@ -33,8 +39,14 @@ export default function ArticleForm(props) {
       updateArticle(values)
     } else {
       postArticle(values)
+      console.log(values)
     }
     // depending on the truthyness of the `currentArticle` prop.
+  }
+
+  const onCancelEdit = () => {
+    setValues(initialFormValues);
+    setCurrentArticleId(null);
   }
 
   const isDisabled = () => {
@@ -47,7 +59,7 @@ export default function ArticleForm(props) {
     // ✨ fix the JSX: make the heading display either "Edit" or "Create"
     // and replace Function.prototype with the correct function
     <form id="form" onSubmit={onSubmit}>
-      <h2>Create Article</h2>
+      <h2>{currentArticle ? 'Edit' : 'Create' } Article</h2>
       <input
         maxLength={50}
         onChange={onChange}
@@ -70,7 +82,7 @@ export default function ArticleForm(props) {
       </select>
       <div className="button-group">
         <button disabled={isDisabled()} id="submitArticle">Submit</button>
-        <button onClick={Function.prototype}>Cancel edit</button>
+        <button onClick={onCancelEdit}>Cancel edit</button>
       </div>
     </form>
   )
