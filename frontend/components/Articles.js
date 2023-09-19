@@ -1,18 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import PT from 'prop-types';
 
 export default function Articles(props) {
-  const { articles, getArticles, deleteArticle, setCurrentArticleId, currentArticleId } = props;
+  const [isDisabled, setIsDisabled] = useState(false);
+  
+  const { articles, getArticles, deleteArticle, setCurrentArticleId, currentArticleId} = props;
 
   if (!localStorage.getItem('token')) {
     return <Navigate to='/' />;
   }
 
   useEffect(() => {
-    // Call the getArticles function without any additional arguments
     getArticles();
   }, []);
+
+  const handleDelete = (article_id) => {
+    deleteArticle(article_id);
+  };
+
+  const handleEdit = (article_id) => { 
+    setCurrentArticleId(article_id)
+    setIsDisabled(true) 
+  };
 
   return (
     <div className="articles">
@@ -28,10 +38,10 @@ export default function Articles(props) {
               <p>Topic: {art.topic}</p>
             </div>
             <div>
-              <button disabled={!currentArticleId} onClick={() => updateArticle(art.article_id)}>
+              <button disabled={isDisabled} onClick={() => handleEdit(art.article_id)}>
                 Edit
               </button>
-              <button disabled={!currentArticleId} onClick={() => deleteArticle(art.article_id)}>
+              <button disabled={isDisabled} onClick={() => handleDelete(art.article_id)}>
                 Delete
               </button>
             </div>

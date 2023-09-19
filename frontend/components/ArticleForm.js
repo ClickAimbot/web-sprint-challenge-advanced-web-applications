@@ -14,6 +14,10 @@ export default function ArticleForm(props) {
   // ✨ where are my props? Destructure them here
   const { postArticle, updateArticle, setCurrentArticleId} = props
 
+  const grabArticleEdit = () => {
+    
+  }
+
   useEffect(() => {
     if (currentArticle) {
       setValues(currentArticle)
@@ -39,7 +43,6 @@ export default function ArticleForm(props) {
       updateArticle(values)
     } else {
       postArticle(values)
-      console.log(values)
     }
     // depending on the truthyness of the `currentArticle` prop.
   }

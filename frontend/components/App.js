@@ -69,7 +69,6 @@ export default function App() {
     axiosWithAuth()
       .get(articlesUrl)
       .then(res => {
-        console.log(res)
         setArticles(res.data.articles)
         setMessage(res.data.message)
         setSpinnerOn(false)
@@ -95,7 +94,6 @@ export default function App() {
     axiosWithAuth()
       .post('./articles', article)
       .then(res => {
-        console.log(res.data)
         setArticles(res.data)
         setMessage(res.data.message)
         setSpinnerOn(false)
@@ -118,6 +116,7 @@ export default function App() {
     setSpinnerOn(true)
     axiosWithAuth().put(`./articles/${article_id}`, article)
       .then(res => {
+        console.log(res)
         setArticles(res.data)
         setMessage(res.data.message)
         setSpinnerOn(false)
@@ -129,7 +128,6 @@ export default function App() {
         }
         setSpinnerOn(false)
       })
-    // You got this!
   }
 
   const deleteArticle = article_id => {
@@ -138,6 +136,7 @@ export default function App() {
     setSpinnerOn(true)
     axiosWithAuth().delete(`./articles/${article_id}`)
       .then(res => {
+        console.log(res)
         setArticles(res.data)
         setMessage(res.data.message)
         setSpinnerOn(false)
@@ -172,13 +171,15 @@ export default function App() {
                 deleteArticle={deleteArticle} 
                 postArticle={postArticle} 
                 setCurrentArticleId={setCurrentArticleId}
-                currentArticleId={currentArticleId}/>
+                currentArticleId={currentArticleId}
+                />
               <Articles 
                 articles={articles} 
                 getArticles={getArticles} 
                 deleteArticle={deleteArticle} 
                 setCurrentArticleId={setCurrentArticleId}
-                currentArticleId={currentArticleId}/> 
+                currentArticleId={currentArticleId}
+              /> 
             </>
           } />
         </Routes>
