@@ -14,13 +14,15 @@ export default function ArticleForm(props) {
   // ✨ where are my props? Destructure them here
   const { postArticle, updateArticle, setCurrentArticleId} = props
 
-  const grabArticleEdit = () => {
-    
-  }
+  const grabArticleEdit = (articleIdToEdit) => {
+    const articleEdit = currentArticle.find(article => article.article_id === articleIdToEdit);
+    setCurrentArticle(articleEdit);
+  }  
 
   useEffect(() => {
     if (currentArticle) {
-      setValues(currentArticle)
+      const articleIdToEdit = grabArticleEdit(currentArticle.article_id);
+      setValues(articleIdToEdit);
     } else {
       setValues(initialFormValues)
     }
@@ -37,7 +39,6 @@ export default function ArticleForm(props) {
 
   const onSubmit = evt => {
     evt.preventDefault()
-    // ✨ implement
     // We must submit a new post or update an existing one,
     if (currentArticle) {
       updateArticle(values)

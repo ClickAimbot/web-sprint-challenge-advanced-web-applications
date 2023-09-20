@@ -111,10 +111,10 @@ export default function App() {
   }
 
   const updateArticle = ({ article_id, article }) => {
-    // ✨ implement
     setMessage('')
     setSpinnerOn(true)
-    axiosWithAuth().put(`./articles/${article_id}`, article)
+    axiosWithAuth()
+      .put(`./articles/${article_id}`, article)
       .then(res => {
         console.log(res)
         setArticles(res.data)
@@ -134,9 +134,9 @@ export default function App() {
     // ✨ implement
     setMessage('')
     setSpinnerOn(true)
-    axiosWithAuth().delete(`./articles/${article_id}`)
+    axiosWithAuth()
+      .delete(`./articles/${article_id}`)
       .then(res => {
-        console.log(res)
         setArticles(res.data)
         setMessage(res.data.message)
         setSpinnerOn(false)
@@ -167,11 +167,9 @@ export default function App() {
           <Route path="articles" element={
             <>
               <ArticleForm 
-                updateArticle={updateArticle} 
-                deleteArticle={deleteArticle} 
+                updateArticle={updateArticle}  
                 postArticle={postArticle} 
                 setCurrentArticleId={setCurrentArticleId}
-                currentArticleId={currentArticleId}
                 />
               <Articles 
                 articles={articles} 
