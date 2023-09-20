@@ -36,10 +36,11 @@ export default function ArticleForm(props) {
     evt.preventDefault()
     // We must submit a new post or update an existing one,
     if (currentArticle) {
-      updateArticle(values)
+      updateArticle(currentArticle.article_id, values)
     } else {
       postArticle(values)
     }
+    setValues(initialFormValues)
     // depending on the truthyness of the `currentArticle` prop.
   }
 
