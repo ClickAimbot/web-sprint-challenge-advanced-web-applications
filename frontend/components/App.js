@@ -116,8 +116,7 @@ export default function App() {
     axiosWithAuth()
       .put(`./articles/${article_id}`, article)
       .then(res => {
-        console.log(res)
-        setArticles(res.data)
+        setArticles(article_id.map(article => article.article_id === article_id ? res.data.article : article))
         setMessage(res.data.message)
         setSpinnerOn(false)
       })
@@ -137,7 +136,7 @@ export default function App() {
     axiosWithAuth()
       .delete(`./articles/${article_id}`)
       .then(res => {
-        setArticles(res.data)
+        setArticles(articles.filter(art => art.article_id !== article_id))
         setMessage(res.data.message)
         setSpinnerOn(false)
       })
@@ -167,9 +166,11 @@ export default function App() {
           <Route path="articles" element={
             <>
               <ArticleForm 
+                articles={articles}
                 updateArticle={updateArticle}  
                 postArticle={postArticle} 
                 setCurrentArticleId={setCurrentArticleId}
+                currentArticleId={currentArticleId}
                 />
               <Articles 
                 articles={articles} 
