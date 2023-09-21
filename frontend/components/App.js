@@ -15,6 +15,7 @@ export default function App() {
   // ✨ MVP can be achieved with these states
   const [message, setMessage] = useState('')
   const [articles, setArticles] = useState([])
+  console.log('articles: ', articles);
   const [currentArticleId, setCurrentArticleId] = useState()
   const [spinnerOn, setSpinnerOn] = useState(false)
 
@@ -111,12 +112,15 @@ export default function App() {
   }
 
   const updateArticle = ({ article_id, article }) => {
+    console.log('article: ', article);
+    console.log('article_id: ', article_id);
     setMessage('')
     setSpinnerOn(true)
     axiosWithAuth()
       .put(`./articles/${article_id}`, article)
       .then(res => {
-        setArticles(article_id.map(article => article.article_id === article_id ? res.data.article : article))
+        const updatedArticles = articles.map(article => article.article_id === article_id ? res.data.article : article)
+        setArticles(updatedArticles)
         setMessage(res.data.message)
         setSpinnerOn(false)
       })
@@ -170,7 +174,7 @@ export default function App() {
                 updateArticle={updateArticle}  
                 postArticle={postArticle} 
                 setCurrentArticleId={setCurrentArticleId}
-                currentArticleId={currentArticleId}
+                currentArticle={articles.find(article => article.article_id === currentArticleId)}
                 />
               <Articles 
                 articles={articles} 

@@ -9,23 +9,21 @@ const initialFormValues =
   }
 export default function ArticleForm(props) {
   const [values, setValues] = useState(initialFormValues);
-  const [currentArticle, setCurrentArticle] = useState(null)
+  // const [currentArticle, setCurrentArticle] = useState(null)
 
   // ✨ where are my props? Destructure them here
-  const { articles, postArticle, updateArticle, currentArticleId, setCurrentArticleId} = props  
+  const { postArticle, updateArticle, setCurrentArticleId, currentArticle} = props  
+  console.log('currentArticle: ', currentArticle);
 
   useEffect(() => {
-    if (currentArticleId) {
-      const currentArticle = articles.filter(art => art.article_id === currentArticleId)
-      setValues(currentArticle[0])
-    } else {
-      setValues(initialFormValues)
-    }
+    if (currentArticle) {
+      setValues(currentArticle)
+    } 
     // ✨ implement
     // Every time the `currentArticle` prop changes, we should check it for truthiness:
     // if it's truthy, we should set its title, text and topic into the corresponding
     // values of the form. If it's not, we should reset the form back to initial values.
-  }, [currentArticleId])
+  }, [currentArticle])
 
   const onChange = evt => {
     const { id, value } = evt.target
@@ -36,11 +34,27 @@ export default function ArticleForm(props) {
     evt.preventDefault()
     // We must submit a new post or update an existing one,
     if (currentArticle) {
-      updateArticle(currentArticle.article_id, values)
+      const article = {
+        title: values.title,
+        text: values.text,
+        topic: values.topic
+      }
+      const updatedArticle = {
+        article_id: currentArticle.article_id,
+        article: article
+      }
+      // updateArticle expects an object shaped like this:
+      // { article_id: 1, article: { title: 'foo', text: 'bar', topic: 'baz' } }
+      updateArticle(updatedArticle);
     } else {
       postArticle(values)
     }
-    setValues(initialFormValues)
+    setValues({ 
+      title: '', 
+      text: '', 
+      topic: '' 
+    })
+    setCurrentArticleId(null)
     // depending on the truthyness of the `currentArticle` prop.
   }
 
